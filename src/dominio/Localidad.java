@@ -1,6 +1,6 @@
 package dominio;
 import java.io.Serializable;
-public class Localidad extends Serializable{
+public class Localidad implements Serializable{
     private String nombre;
     private int poblacion;
 

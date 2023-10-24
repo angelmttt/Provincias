@@ -1,7 +1,7 @@
 package dominio;
 import java.util.ArrayList;
 import java.io.Serializable;
-public class Provincia extends Serializable
+public class Provincia implements Serializable{
     private String nombre;
     private ArrayList<Municipio> municipios;
     public Provincia(String nombre_) {
@@ -12,6 +12,9 @@ public class Provincia extends Serializable
         municipios.add(municipio);
         return this;
     }
+    public String getNombre() {
+        return nombre;
+    }
     public int getPoblacion(){
         int poblacion=0;
         for(Municipio municipio:municipios){
@@ -19,14 +22,17 @@ public class Provincia extends Serializable
         }
         return poblacion;
     }
-    public int getMunicipios(){
-        return municipios.size();
+    public ArrayList<Municipio> getMunicipios(){
+        return municipios;
     }
     public Municipio getMunicipio(int i){
         return municipios.get(i);
     }
     public String toString(){
         return "Provincia: "+nombre+" Población: "+getPoblacion() +" habitantes\n"+municipios.toString();
+    }
+    public int size(){
+        return municipios.size();
     }
 
 }

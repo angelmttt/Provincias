@@ -2,77 +2,103 @@ package presentacion;
 import dominio.*;
 import java.io.*;
 import java.util.*;
-private static Scanner sc = new Scanner(System.in);
 public class Interfaz {
-    public static boolean procesarPeticion (String peticion, ArrayList<Provincia> l){
+    private  ArrayList<Provincia> l;
+    private  Scanner sc = new Scanner(System.in);
+    public Interfaz(){
+        File f=new File("provincias.dat");
+        try {
+            ObjectInputStream ois=new ObjectInputStream(new FileInputStream(f));
+            l=(ArrayList<Provincia>)ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            l=new ArrayList<Provincia>();
+        }
+    }
+
+    public void grabar(){
+        File f=new File("provincias.dat");
+        try {
+            ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream(f));
+            oos.writeObject(l);
+            oos.close();
+        } catch (Exception e) {
+            System.out.print("Error al grabar");
+        }
+    }
+    public  boolean procesarPeticion (String peticion){
         String [] p=peticion.split(" ");
-        if (p[0].equals("addProvincia"))
-            if (p.length!=2)// peticion erronea
-                System.out.print("peticion erronea. Pida la ayuda 'help'");
-            else
-                aniadirProvincia(p[1],l);
-        else if (p[0].equals("addMunicipio"))
-            if (p.length!=2)// peticion erronea
-                System.out.print("peticion erronea. Pida la ayuda 'help'");
-            else
-                aniadirMunicipio(p[1],l);
-        else if (p[0].equals("addLocalidad"))
-            if (p.length!=2)// peticion erronea
-                System.out.print("peticion erronea. Pida la ayuda 'help'");
-            else
-                aniadirLocalidad(p[1],l);
-        else if (p.length!=1)// peticion erronea
-            System.out.print("peticion erronea. Pida la ayuda 'help'");
-        else if (p[0].equals("list"))
-            System.out.print (l);
-        else if (p[0].equals("help"))
-            System.out.print("introduzca ua de las siguientes peticiones: \n addProvindia nombre: añadir provincia\n addMunicipio nombre: añadir Municipio\n addLocalidad nombre: añadir Localidad\n list: listar la agenda\n exit: salir\n");
-        else if (p[0].equals("exit"))
-            return false;
+        if (p.length==1)
+            if 	(p[0].equals("addProvincia"))
+               aniadirProvincia(p[1],l);
+            else if (p[0].equals("addMunicipio"))
+               aniadirMunicipio(l);
+            else if (p[0].equals("addLocalidad"))
+            aniadirLocalidad(l);
+            else if (p[0].equals("read"))
+	            leer(l);
+	        else if (p[0].equals("list"))
+                    System.out.print (l);
+            else if (p[0].equals("help"))
+                    System.out.print("introduzca ua de las siguientes peticiones: \n addProvindia: añadir provincia\n addMunicipio: añadir Municipio\n addLocalidad: añadir Localidad\n list: listar el contenido\n read: lectura inicial\n exit: salir\n");
+            else if (p[0].equals("exit")){
+                    grabar(l);
+                    return false;//no se procesarán más peticiónes
+            }
+            else {
+                    System.out.print("petición erronea");
+                    procesarPeticion("help");
+                }
         else {
             System.out.print("petición erronea");
-            procesarPeticion("help",l);
+            procesarPeticion("help");
         }
         return true;//en todos los casos debe seguir pidiendo y procesando peticiones
     }
-    public static void aniadirProvincia(String nombre, ArrayList<Provincia> l){
+    public  void aniadirProvincia(){
+        System.out.print("Introduzca el nombre de la provincia: ");
+        String nombre=sc.nextLine();
         Provincia p=new Provincia(nombre);
         l.add(p);
     }
 
-    public static void aniadirMunicipio(String nombre, ArrayList<Provincia> l){
+    public  void aniadirMunicipio(){
+        System.out.print("Introduzca el nombre del municipio: ");
+        String nombre=sc.nextLine();
         Municipio m=new Municipio(nombre);
         for (int i=0;i<l.size();i++)
-            System.out.println(i+": " + l.get(i)getNombre());
+            System.out.println(i+": " + l.get(i).getNombre());
         System.out.print("Introduzca el número de la provincia: ");
         int i=sc.nextInt();
         sc.nextLine();
         l.get(i).add(m);
     }
 
-    public static void aniadirLocalidad(String nombre, ArrayList<Provincia> l){
-        Localidad l=new Localidad(nombre);
+    public  void aniadirLocalidad(){
+        System.out.print("Introduzca el nombre de la localidad: ");
+        String nombre=sc.nextLine();
+        System.out.print("Introduzca la población de la localidad: ");
+        int poblacion=sc.nextInt();
+        Localidad localidad=new Localidad(nombre, poblacion);
         for (int i=0;i<l.size();i++)
-            System.out.println(i+": " + l.get(i)getNombre());
+            System.out.println(i+": " + l.get(i).getNombre());
         System.out.print("Introduzca el número de la provincia: ");
         int i=sc.nextInt();
         sc.nextLine();
         for (int j=0;j<l.get(i).size();j++)
-            System.out.println(j+": " + l.get(i).get(j)getNombre());
+            System.out.println(j+": " + l.get(i).getMunicipio(j).getNombre());
         System.out.print("Introduzca el número del municipio: ");
         int j=sc.nextInt();
         sc.nextLine();
-        l.get(i).get(j).add(l);
+        l.get(i).getMunicipio(j).add(localidad);
     }
-    public static String leerPeticion(){
+    public String leerPeticion(){
         System.out.print("?>");
         String cadena = sc.nextLine();
         return cadena;
     }
 
-    public static ArrayList<Provincia>leer(){
-        ArrayList<Provincia> provincias=new ArrayList<Provincia>();
-        Scanner sc=new Scanner(System.in);
+    public  void leer(){
             String nombreP, nombreM, nombreL;
             do {
             System.out.print("Introduce el nombre de la provincia (<enter> para finalizar: ");
@@ -98,11 +124,11 @@ public class Interfaz {
                         provincia.add(municipio);
                     }
                 } while (!nombreM.equals(""));
-                provincias.add(provincia);
+                l.add(provincia);
             }
     }
     while (!nombreP.equals(""));
 
-    return provincias;
     }
+
 }
