@@ -6,9 +6,9 @@ public class Principal {
     public static void main(String[] args) {
         ArrayList<Provincia> provincias=new ArrayList<Provincia>();
         String peticion;
-        Interfaz.procesarPeticion("help",l);// para que muestre la ayuda al principio
+        Interfaz.procesarPeticion("help",provincias);// para que muestre la ayuda al principio
         do {
             peticion=Interfaz.leerPeticion();
-        } while (Interfaz.procesarPeticion(peticion,l));
+        } while (Interfaz.procesarPeticion(peticion,provincias));
     }
 }
