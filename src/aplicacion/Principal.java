@@ -4,9 +4,11 @@ import presentacion.Interfaz;
 import java.util.ArrayList;
 public class Principal {
     public static void main(String[] args) {
-        ArrayList<Provincia> provincias=Interfaz.leer();
-        for(Provincia provincia:provincias){
-            System.out.println(provincia);
-        }
+        ArrayList<Provincia> provincias=new ArrayList<Provincia>();
+        String peticion;
+        Interfaz.procesarPeticion("help",l);// para que muestre la ayuda al principio
+        do {
+            peticion=Interfaz.leerPeticion();
+        } while (Interfaz.procesarPeticion(peticion,l));
     }
 }
