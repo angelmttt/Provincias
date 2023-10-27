@@ -29,7 +29,7 @@ public class Provincia implements Serializable{
         return municipios.get(i);
     }
     public String toString(){
-        return "Provincia: "+nombre+" Población: "+getPoblacion() +" habitantes\n"+municipios.toString();
+        return "Provincia: "+nombre+" Población: "+getPoblacion() +" habitantes\n"+municipios.toString()+"\n";
     }
     public int size(){
         return municipios.size();

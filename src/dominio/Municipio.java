@@ -27,7 +27,7 @@ public class Municipio implements Serializable{
         return localidades.get(i);
     }
     public String toString(){
-        return "Municipio: "+nombre+" Población: "+getPoblacion() +" habitantes\n"+localidades.toString();
+        return "Municipio: "+nombre+" Población: "+getPoblacion() +" habitantes\n"+localidades.toString()+"\n";
     }
 
     public String getNombre() {

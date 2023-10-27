@@ -30,27 +30,27 @@ public class Interfaz {
         String [] p=peticion.split(" ");
         if (p.length==1)
             if 	(p[0].equals("addProvincia"))
-               aniadirProvincia(p[1],l);
+               aniadirProvincia();
             else if (p[0].equals("addMunicipio"))
-               aniadirMunicipio(l);
+               aniadirMunicipio();
             else if (p[0].equals("addLocalidad"))
-            aniadirLocalidad(l);
+            aniadirLocalidad();
             else if (p[0].equals("read"))
-	            leer(l);
+	            leer();
 	        else if (p[0].equals("list"))
-                    System.out.print (l);
+                    System.out.println (l);
             else if (p[0].equals("help"))
-                    System.out.print("introduzca ua de las siguientes peticiones: \n addProvindia: añadir provincia\n addMunicipio: añadir Municipio\n addLocalidad: añadir Localidad\n list: listar el contenido\n read: lectura inicial\n exit: salir\n");
+                    System.out.println("introduzca ua de las siguientes peticiones: \n addProvindia: añadir provincia\n addMunicipio: añadir Municipio\n addLocalidad: añadir Localidad\n list: listar el contenido\n read: lectura inicial\n exit: salir\n");
             else if (p[0].equals("exit")){
-                    grabar(l);
+                    grabar();
                     return false;//no se procesarán más peticiónes
             }
             else {
-                    System.out.print("petición erronea");
+                    System.out.println("petición erronea");
                     procesarPeticion("help");
                 }
         else {
-            System.out.print("petición erronea");
+            System.out.println("petición erronea");
             procesarPeticion("help");
         }
         return true;//en todos los casos debe seguir pidiendo y procesando peticiones
